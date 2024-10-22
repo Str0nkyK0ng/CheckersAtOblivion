@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class VisualizeBoard : MonoBehaviour
@@ -10,32 +11,35 @@ public class VisualizeBoard : MonoBehaviour
     public GhostVisualization ghostPrefab;
 
     List<GameObject> pieces;
+
+    public List<PhysicalGridSpot> physicalGridSpots;
     // Start is called before the first frame update
     void Start()
     {
         pieces = new List<GameObject>();
         ghosts = new List<GameObject>();
         gameBoard = new Board();
-        Visualize();    
+        physicalGridSpots = GetComponentsInChildren<PhysicalGridSpot>().ToList();
+
+        InitializePieces();    
     }
 
-    void Visualize(){
-        foreach(GameObject piece in pieces){
-            Destroy(piece);
-        }
+    void InitializePieces(){
         for(int x=0;x<8;x++){   
             for(int y=0;y<8;y++){
-                // Create a circle
+                // Let's create all of our pieces
                 if(gameBoard.grid[x][y]!=null){
                     PieceVisualization piece = Instantiate(piecePrefab);
                     piece.correspondingPiece = gameBoard.grid[x][y];
-                    piece.transform.SetParent(this.transform);
+
+                    // Change the position
                     if(gameBoard.grid[x][y].color=="White")
                         piece.GetComponentInChildren<Renderer>().material.color = Color.red;
                     else
                         piece.GetComponentInChildren<Renderer>().material.color = Color.blue;
-                    piece.transform.localPosition = new Vector3(x*scaleSize,0,y*scaleSize);
 
+                    //Set it on our spot
+                    physicalGridSpots[x+y*8].PlaceObject(piece);
                     pieces.Add(piece.gameObject);
                 }
             }
@@ -48,7 +52,6 @@ public class VisualizeBoard : MonoBehaviour
         piece.x = x;
         piece.y = y;
         ClearGhosts();
-        Visualize();
         SFXManager.instance.PlaySFX("Place",true);
     }
 
