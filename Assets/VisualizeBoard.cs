@@ -45,6 +45,24 @@ public class VisualizeBoard : MonoBehaviour
         }
     }
 
+    public void MovePiece(PieceInteraction piece, Vector2 newPosition){
+        // Get the current position of the piece
+        int x = (int)piece.correspondingPiece.x;
+        int y = (int)piece.correspondingPiece.y;
+        // Get the new position of the piece
+        int newX = (int)newPosition.x;
+        int newY = (int)newPosition.y;
+        // Move the piece
+        gameBoard.grid[newX][newY] = gameBoard.grid[x][y];
+        gameBoard.grid[x][y] = null;
+
+        piece.correspondingPiece.x = newX;
+        piece.correspondingPiece.y = newY;
+        // Move the piece in the visualization
+        ClearGhosts();
+        physicalGridSpots[newX+newY*8].PlaceObject(piece.gameObject);
+        physicalGridSpots[x+y*8].RemoveObject();
+    }
 
     List<GameObject> ghosts;
     public void VisualizeGhost(int x, int y, PieceInteraction piece){

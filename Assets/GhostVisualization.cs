@@ -9,7 +9,12 @@ public class GhostVisualization : MonoBehaviour
     public PieceInteraction correspondingPiece;
 
     public void OnMouseOver(){
-
+        if(Input.GetMouseButtonDown(0)){
+            SFXManager.instance.PlaySFX("Place",true);
+            //If the piece is clicked on
+            FindObjectOfType<VisualizeBoard>().ClearGhosts();
+            FindObjectOfType<VisualizeBoard>().MovePiece(correspondingPiece,gridPosition);
+        }
     }
 
 }
