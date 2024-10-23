@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PieceVisualization : MonoBehaviour
+public class PieceInteraction : MonoBehaviour
 {
 
     public Piece correspondingPiece;
-    public float scaleSize = 0.75f/2;
-
     public bool selected=false;
 
 
@@ -25,11 +23,6 @@ public class PieceVisualization : MonoBehaviour
             }
         }
     }
-
-    public void MoveTo(int x,int y){
-        selected=false;
-    }   
-
 
     public void DisplayPossibleMoves(){
         List<Vector2> moves = correspondingPiece.GetMoves();

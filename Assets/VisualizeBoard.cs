@@ -7,7 +7,7 @@ public class VisualizeBoard : MonoBehaviour
 {
     Board gameBoard;
     public float scaleSize = 0.75f/2;
-    public PieceVisualization piecePrefab;
+    public PieceInteraction piecePrefab;
     public GhostVisualization ghostPrefab;
 
     List<GameObject> pieces;
@@ -20,7 +20,6 @@ public class VisualizeBoard : MonoBehaviour
         ghosts = new List<GameObject>();
         gameBoard = new Board();
         physicalGridSpots = GetComponentsInChildren<PhysicalGridSpot>().ToList();
-
         InitializePieces();    
     }
 
@@ -29,10 +28,10 @@ public class VisualizeBoard : MonoBehaviour
             for(int y=0;y<8;y++){
                 // Let's create all of our pieces
                 if(gameBoard.grid[x][y]!=null){
-                    PieceVisualization piece = Instantiate(piecePrefab);
+                    PieceInteraction piece = Instantiate(piecePrefab);
                     piece.correspondingPiece = gameBoard.grid[x][y];
 
-                    // Change the position
+                    // Change the color of the piece
                     if(gameBoard.grid[x][y].color=="White")
                         piece.GetComponentInChildren<Renderer>().material.color = Color.red;
                     else
@@ -46,19 +45,9 @@ public class VisualizeBoard : MonoBehaviour
         }
     }
 
-    public void MovePiece(Piece piece, int x, int y){
-        gameBoard.grid[piece.x][piece.y] = null;
-        gameBoard.grid[x][y] = piece;
-        piece.x = x;
-        piece.y = y;
-        ClearGhosts();
-        SFXManager.instance.PlaySFX("Place",true);
-    }
-
-
 
     List<GameObject> ghosts;
-    public void VisualizeGhost(int x, int y, PieceVisualization piece){
+    public void VisualizeGhost(int x, int y, PieceInteraction piece){
         // see if that spot is already occupied
         if(gameBoard.grid[x][y]!=null){
             return;
@@ -66,18 +55,20 @@ public class VisualizeBoard : MonoBehaviour
         // Create a circle
         GhostVisualization ghost = Instantiate(ghostPrefab);
         ghost.correspondingPiece = piece;
-        ghost.gridPosition = new Vector2(x,y);
-        ghost.transform.SetParent(this.transform);
-        // white with 50% transparency
         ghost.GetComponentInChildren<Renderer>().material.color = new Color(1,1,1,0.5f);
-        ghost.transform.localPosition = new Vector3(scaleSize*x,0,scaleSize*y);
+        physicalGridSpots[x+y*8].PlaceObject(ghost.gameObject);
+        ghost.gridPosition = new Vector2(x,y);
         ghosts.Add(ghost.gameObject);
     }
 
 
     public void ClearGhosts(){
         foreach(GameObject ghost in ghosts){
-            Destroy(ghost);
+            // Clear the spot on the grid
+            GhostVisualization gv = ghost.GetComponent<GhostVisualization>();
+            int index = (int)(gv.gridPosition.x+gv.gridPosition.y*8);
+            print("Clearing ghost at "+index);
+            physicalGridSpots[index].DeleteObject();
         }
         ghosts.Clear();
     }

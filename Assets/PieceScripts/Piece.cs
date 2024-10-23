@@ -48,6 +48,11 @@ public class Piece
             }
         }
 
+        // Print them out
+        foreach(Vector2 option in options){
+            Debug.Log(option);
+        }
+
         return options;
     }
 }

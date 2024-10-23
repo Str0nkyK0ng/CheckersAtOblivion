@@ -28,7 +28,6 @@ public class DegradeTable : MonoBehaviour
     void Degrade(){
         inc++;
         float variation = Mathf.Pow(degradeFactor,inc)-1;
-        print(variation);
         foreach(DegradeTile spot in tableSpots){
             spot.desiredPosition =  spot.transform.localPosition + new Vector3(Random.Range(-variation,variation),0,Random.Range(-variation,variation));
         }
