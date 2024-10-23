@@ -39,7 +39,7 @@ public class VisualizeBoard : MonoBehaviour
                         piece.GetComponentInChildren<Renderer>().material.color = Color.blue;
 
                     //Set it on our spot
-                    physicalGridSpots[x+y*8].PlaceObject(piece);
+                    physicalGridSpots[x+y*8].PlaceObject(piece.gameObject);
                     pieces.Add(piece.gameObject);
                 }
             }
