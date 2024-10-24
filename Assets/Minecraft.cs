@@ -28,8 +28,8 @@ public class Minecraft : MonoBehaviour
     {
         
     }
-    int width=50;
-    int height=50;
+    public int width=75;
+    public int height=75;
     public void GenerateWorld(){
         //lets create a 100x100 gradient noise texture
         for(int x=0;x<width;x++){
