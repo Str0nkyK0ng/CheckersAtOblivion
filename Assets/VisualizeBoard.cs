@@ -62,6 +62,9 @@ public class VisualizeBoard : MonoBehaviour
         ClearGhosts();
         physicalGridSpots[newX+newY*8].PlaceObject(piece.gameObject);
         physicalGridSpots[x+y*8].RemoveObject();
+
+        // Degrade Manager
+        DegradeManager.instance.Degrade();
     }
 
     List<GameObject> ghosts;

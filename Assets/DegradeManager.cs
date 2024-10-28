@@ -1,26 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class DegradeManager : MonoBehaviour
 {
     public static DegradeManager instance;
-    public float timer=0;
-    public float time=5;
     public UnityEvent onDegrade;
+
+    public GameObject[] spawns;
+    public bool doneSpawning=false;
+    public int index=0;
     public void Awake(){
         instance=this;
         onDegrade=new UnityEvent();
     }
     // Update is called once per frame
-    void Update()
-    {
-        timer+=Time.deltaTime;
-        if(timer>time){
-            timer=0;
-            onDegrade.Invoke();
-            DegradeReality.Increase();
+
+    public void Degrade(){
+        onDegrade.Invoke();
+        DegradeReality.Increase();
+
+        int showQ = DegradeReality.degration%2;
+        if(showQ==0 && !doneSpawning){
+            spawns[index].SetActive(true);
+            if(index<spawns.Length){
+                index++;
+            }
+            else{
+                doneSpawning=true;
+            }
         }
+        
     }
 }
