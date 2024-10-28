@@ -23,7 +23,7 @@ public class DegradeMarquee : MonoBehaviour
         Vector3 anchor = rectTransform.anchoredPosition;
         anchor.x -= speed*Time.deltaTime;
         if(anchor.x < - 15650){
-            anchor.x = 1920;
+            anchor.x = -1197f;
         }
         rectTransform.anchoredPosition = anchor;
     }

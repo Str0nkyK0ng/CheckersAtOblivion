@@ -15,6 +15,8 @@ public class DegradeManager : MonoBehaviour
     public void Awake(){
         instance=this;
         onDegrade=new UnityEvent();
+        // disable
+        spawns.ToList().ForEach(x=>x.SetActive(false));
     }
     // Update is called once per frame
 
