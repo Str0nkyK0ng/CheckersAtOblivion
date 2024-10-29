@@ -29,6 +29,8 @@ public class DegradeMarquee : MonoBehaviour
     }
 
     void Degrade(){
-        speed *= Mathf.Pow(degradeFactor,DegradeReality.degration);
+        if(speed<Mathf.Pow(10,5)){
+            speed *= Mathf.Pow(degradeFactor,DegradeReality.degration);
+        }
     }
 }

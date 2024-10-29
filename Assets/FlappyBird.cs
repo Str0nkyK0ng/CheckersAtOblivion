@@ -17,6 +17,10 @@ public class FlappyBird : MonoBehaviour
     public float xRange=3;
     public float xSpeed=1;
 
+    public void Start(){
+        DegradeManager.instance.onDegrade.AddListener(()=>{xSpeed++;});
+    }
+
     public void Update(){
         velocity+=gravity*Time.deltaTime;
 
@@ -35,9 +39,12 @@ public class FlappyBird : MonoBehaviour
         position.x += Time.deltaTime*xSpeed;
         if(position.x>xRange){
             position.x = - xRange;
+            // give them a random rotation
+            transform.localRotation = Quaternion.Euler(Random.Range(-45,45),Random.Range(-45,45),Random.Range(-45,45));
         }
         else if (position.x < - xRange){
             position.x = xRange;
+            transform.localRotation = Quaternion.Euler(Random.Range(-45,45),Random.Range(-45,45),Random.Range(-45,45));
         }
 
         this.transform.localPosition = position;

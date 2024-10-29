@@ -29,6 +29,7 @@ public class SFXManager : MonoBehaviour
             audioSource.pitch = Random.Range(0.9f, 1.1f);
         else
             audioSource.pitch = 1.0f;
+
         if(sfx.ContainsKey(name))
             audioSource.PlayOneShot(sfx[name]);
         else
